@@ -6,27 +6,24 @@ from ctypes import *
 
 #This is the IP Class inherited from Structure.
 class IP(Structure):
-
-    #A fields attribute is required to be able to parse the buffer into 1, 2 or
-    #4 byte sections as below
-    _fields_ = [
-        ("ihl", c_ubyte, 4),
-        ("version", c_ubyte, 4),
-        ("tos", c_ubyte),
-        ("len", c_ushort),
-        ("id", c_ushort),
-        ("offset", c_ushort),
-        ("ttl", c_ubyte),
-        ("protocol_num", c_ubyte),
-        ("sum", c_ushort),
-        ("src", c_uint32),
-        ("dst", c_uint32)
-    ]
+	# Internet  protocol structure in bits
+	_fields_ = [
+        	("ihl", c_ubyte, 4),		# 4-bits
+       		("version", c_ubyte, 4),	# 4-bits
+	        ("tos", c_ubyte),		# 8-bits
+	        ("len", c_ushort),		# 16-bits
+        	("id", c_ushort),		# 16-bits
+	        ("offset", c_ushort),		# 16-bits
+	        ("ttl", c_ubyte),		# 8-bits
+	        ("protocol_num", c_ubyte),	# 8-bits
+	        ("sum", c_ushort),		# 16-bits
+	        ("src", c_uint32),		# 32-bits
+	        ("dst", c_uint32)		# 32-bits
+	    ]
 
     def __new__(self, socket_buffer=None):
         return self.from_buffer_copy(socket_buffer)
 
-    #class is then instantiated with further attributes
     def __init__(self, socket_buffer=None):
         #create a mapping between IP protocol numbers and names
         self.protocol_map = {1: "ICMP", 6: "TCP", 17: "UDP"}
@@ -45,9 +42,9 @@ socket_protocol = socket.IPPROTO_ICMP
 
 sniffer = socket.socket(socket.AF_INET, socket.SOCK_RAW, socket_protocol)
 
-try:
-    sniffer.bind(("0.0.0.0", 0))
-    sniffer.setsockopt(socket.IPPROTO_IP, socket.IP_HDRINCL, 1)
+try: 
+    sniffer.bind(("0.0.0.0", 0))	# Bind the socket
+    sniffer.setsockopt(socket.IPPROTO_IP, socket.IP_HDRINCL, 1) 
 except:
     sys.exit(1)
 
