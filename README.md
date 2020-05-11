@@ -1,2 +1,1 @@
-# LearnPython
-Python stuffs
+# LearnNetProgramming
